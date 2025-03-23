@@ -6,7 +6,7 @@ import seaborn as sns
 from PIL import Image
 from io import BytesIO
 
-st.title("🏨 Advanced Hotel Booking Analysis")
+st.title("Comprehensive Hotel Booking Analysis")
 
 # Upload CSV Button
 st.sidebar.subheader("📤 Upload New Dataset")
@@ -19,33 +19,53 @@ if uploaded_file:
 # Fetch analytics data
 st.subheader("📊 Revenue Trends & Analytics")
 analytics_response = requests.get("http://127.0.0.1:5000/analytics").json()
-st.metric("Cancellation Rate", analytics_response["cancellation_rate"])
 
-# Show top booking countries
-st.subheader("🌍 Top Booking Countries")
-st.json(analytics_response["top_countries"])
+# Display Cancellation Rate
+st.metric("📉 Cancellation Rate", analytics_response["cancellation_rate"])
 
-# Show lead time distribution stats
-st.subheader("📈 Lead Time Distribution")
-st.json(analytics_response["lead_time_distribution"])
-
-# Fetch revenue trend plot
-st.subheader("📉 Revenue Trends Graph")
+# Fetch Revenue Trends Plot
 response = requests.get("http://127.0.0.1:5000/plot_revenue")
-
 if response.status_code == 200:
     image = Image.open(BytesIO(response.content))
     st.image(image, caption="Monthly Revenue Trends", use_column_width=True)
 else:
-    st.error("Failed to load revenue trends graph. Please make sure Flask is running.")
+    st.error("⚠️ Failed to load revenue trends graph. Please ensure Flask is running.")
 
-# Forecasting Graph
-st.subheader("🔮 Forecasted Revenue Trends (Next 12 Months)")
-predictions = requests.get("http://127.0.0.1:5000/predict_revenue").json()
-st.json(predictions["predicted_revenue"])
 
-# AI Chatbot
-st.subheader("🤖 Ask AI about Bookings")
+# **Formatted Top Booking Countries**
+st.subheader("🌍 Top Booking Countries")
+top_countries = analytics_response.get("top_countries", {})
+
+if top_countries:
+    for country, count in top_countries.items():
+        st.write(f"• **{country}**: {count} bookings")
+else:
+    st.error("⚠️ No country data available.")
+
+# **Formatted Lead Time Distribution**
+st.subheader("📈 Lead Time Distribution")
+lead_time = analytics_response.get("lead_time_distribution", {})
+
+if lead_time:
+    st.write(f"• **Mean Lead Time:** {lead_time['mean']:.2f} days")
+    st.write(f"• **Min Lead Time:** {lead_time['min']} days")
+    st.write(f"• **Max Lead Time:** {lead_time['max']} days")
+    st.write(f"• **Standard Deviation:** {lead_time['std']:.2f}")
+else:
+    st.error("⚠️ No lead time data available.")
+
+# **Formatted Forecasted Revenue Trends**
+st.subheader("💰 Forecasted Revenue Trends (Next 12 Months)")
+predictions = requests.get("http://127.0.0.1:5000/predict_revenue").json().get("predicted_revenue", {})
+
+if predictions:
+    for date, revenue in predictions.items():
+        st.write(f"• **{date}:** ${revenue:,.2f}")
+else:
+    st.error("⚠️ No forecast data available.")
+
+# **AI Chatbot**
+st.subheader("🦾 Ask AI about Bookings")
 user_query = st.text_input("Enter your query:")
 if user_query:
     try:
