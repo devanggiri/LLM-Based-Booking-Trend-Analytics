@@ -7,9 +7,13 @@ This project is an **AI-driven hotel booking analytics and chatbot system**, des
 ### **Core Features**
 
 ✔️ **Live Hotel Analytics** – Track revenue, cancellations, and top booking sources 
+
 ✔️ **AI Chatbot** – Get booking-related answers via Gemini AI 
+
 ✔️ **Revenue Forecasting** – Predict future revenue using Facebook Prophet   
+
 ✔️ **User-Friendly Dashboard** – Intuitive Streamlit interface for visualization 
+
 ✔️ **CSV File Support** – Upload datasets dynamically for instant updates 
 
 ---
