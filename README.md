@@ -47,8 +47,8 @@ This project is an **AI-driven hotel booking analytics and chatbot system**, des
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/Aryan-Rajesh-Python/LLM-Powered-Booking-Analytics-QA-System.git
-cd LLM-Powered-Booking-Analytics-QA-System
+git clone https://github.com/devanggiri/LLM-Based-Booking-Trend-Analytics.git
+cd LLM-Based-Booking-Trend-Analytics
 ```
 
 ### Step 2: Create & Activate a Virtual Environment _(Optional)_
